@@ -1,0 +1,381 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>林一 - 作品集</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #0f0f13;
+    color: #e8e8ed;
+    min-height: 100vh;
+    padding: 0 24px 60px;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    top: -40%; left: -20%;
+    width: 80vw; height: 80vw;
+    background: radial-gradient(circle, rgba(99,102,241,0.12) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  body::after {
+    content: '';
+    position: fixed;
+    bottom: -30%; right: -15%;
+    width: 60vw; height: 60vw;
+    background: radial-gradient(circle, rgba(236,72,153,0.08) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── Navigation ── */
+  nav {
+    position: relative;
+    z-index: 10;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 20px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  nav a {
+    color: #a1a1aa;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 8px 20px;
+    border-radius: 999px;
+    border: 1px solid transparent;
+    transition: all 0.2s ease;
+  }
+  nav a:hover {
+    color: #e8e8ed;
+    background: rgba(255,255,255,0.06);
+    border-color: rgba(255,255,255,0.08);
+  }
+  nav a.active {
+    color: #f4f4f5;
+    background: rgba(99,102,241,0.15);
+    border-color: rgba(99,102,241,0.25);
+  }
+
+  /* ── Page header ── */
+  .page-header {
+    position: relative;
+    z-index: 1;
+    max-width: 960px;
+    margin: 8px auto 40px;
+    text-align: center;
+    animation: fadeUp 0.5s ease-out both;
+  }
+  .page-header h1 {
+    font-size: 30px;
+    font-weight: 700;
+    color: #f4f4f5;
+    letter-spacing: -0.5px;
+    margin-bottom: 8px;
+  }
+  .page-header p {
+    font-size: 14px;
+    color: #a1a1aa;
+  }
+
+  /* ── Grid ── */
+  .grid {
+    position: relative;
+    z-index: 1;
+    max-width: 960px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  /* ── Project card ── */
+  .project-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px;
+    padding: 28px 24px 24px;
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.06);
+    display: flex;
+    flex-direction: column;
+    transition: all 0.25s ease;
+    animation: fadeUp 0.5s ease-out both;
+  }
+  .project-card:nth-child(1) { animation-delay: 0.05s; }
+  .project-card:nth-child(2) { animation-delay: 0.10s; }
+  .project-card:nth-child(3) { animation-delay: 0.15s; }
+  .project-card:nth-child(4) { animation-delay: 0.20s; }
+  .project-card:nth-child(5) { animation-delay: 0.25s; }
+  .project-card:nth-child(6) { animation-delay: 0.30s; }
+
+  .project-card:hover {
+    border-color: rgba(99,102,241,0.3);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.08);
+  }
+
+  .project-icon {
+    width: 48px; height: 48px;
+    border-radius: 14px;
+    background: rgba(99,102,241,0.12);
+    border: 1px solid rgba(99,102,241,0.18);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    margin-bottom: 18px;
+  }
+
+  .project-name {
+    font-size: 17px;
+    font-weight: 600;
+    color: #f4f4f5;
+    margin-bottom: 6px;
+    letter-spacing: -0.2px;
+  }
+
+  .project-desc {
+    font-size: 13px;
+    color: #a1a1aa;
+    line-height: 1.5;
+    margin-bottom: 16px;
+    flex: 1;
+  }
+
+  .project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 18px;
+  }
+
+  .project-tags span {
+    background: rgba(99,102,241,0.12);
+    color: #a5b4fc;
+    border: 1px solid rgba(99,102,241,0.2);
+    padding: 3px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 500;
+  }
+
+  .detail-btn {
+    align-self: flex-start;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: #d4d4d8;
+    padding: 8px 20px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.2s ease;
+  }
+  .detail-btn:hover {
+    background: rgba(99,102,241,0.18);
+    border-color: rgba(99,102,241,0.3);
+    color: #c7d2fe;
+  }
+
+  /* ── Footer ── */
+  .footer {
+    position: relative;
+    z-index: 1;
+    max-width: 960px;
+    margin: 48px auto 0;
+    text-align: center;
+  }
+  .back-btn {
+    display: inline-block;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    color: #fff;
+    text-decoration: none;
+    padding: 12px 32px;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 12px rgba(99,102,241,0.3);
+    letter-spacing: -0.2px;
+  }
+  .back-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(99,102,241,0.45);
+  }
+
+  /* ── Modal ── */
+  .modal-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(6px);
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 100;
+    padding: 24px;
+  }
+  .modal-overlay.active { opacity: 1; visibility: visible; }
+
+  .modal {
+    background: #1a1a24;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px;
+    padding: 36px 32px 28px;
+    max-width: 360px;
+    width: 100%;
+    text-align: center;
+    transform: scale(0.9) translateY(12px);
+    transition: transform 0.3s ease;
+    box-shadow: 0 16px 48px rgba(0,0,0,0.5);
+  }
+  .modal-overlay.active .modal { transform: scale(1) translateY(0); }
+
+  .modal-icon { font-size: 40px; margin-bottom: 16px; }
+  .modal h2 { font-size: 20px; color: #f4f4f5; margin-bottom: 10px; font-weight: 700; }
+  .modal p { font-size: 14px; color: #a1a1aa; line-height: 1.6; margin-bottom: 24px; }
+
+  .modal-close {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: #d4d4d8;
+    padding: 8px 28px;
+    border-radius: 10px;
+    font-size: 14px;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 500;
+    transition: all 0.2s ease;
+  }
+  .modal-close:hover { background: rgba(255,255,255,0.14); color: #f4f4f5; }
+
+  /* ── Animations ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 768px) {
+    .grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  }
+  @media (max-width: 520px) {
+    body { padding: 0 16px 48px; }
+    .grid { grid-template-columns: 1fr; }
+    .page-header h1 { font-size: 24px; }
+    nav { gap: 4px; }
+    nav a { padding: 6px 14px; font-size: 13px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav>
+  <a href="index.html">首页</a>
+  <a href="projects.html" class="active">作品集</a>
+  <a href="tools.html">工具箱</a>
+</nav>
+
+<!-- Page Header -->
+<div class="page-header">
+  <h1>作品集</h1>
+  <p>一些我在学习和探索中做的小项目</p>
+</div>
+
+<!-- Project Grid -->
+<div class="grid">
+
+  <div class="project-card">
+    <div class="project-icon">✅</div>
+    <div class="project-name">待办工具</div>
+    <div class="project-desc">一个简洁的待办事项管理工具，支持增删改查与本地持久化存储。</div>
+    <div class="project-tags">
+      <span>HTML</span><span>CSS</span><span>JavaScript</span>
+    </div>
+    <a class="detail-btn" href="projects/todo.html" target="_blank" style="text-decoration:none;display:inline-block">查看项目</a>
+  </div>
+
+
+  <div class="project-card">
+    <div class="project-icon">🔐</div>
+    <div class="project-name">密码生成器</div>
+    <div class="project-desc">一键生成高强度随机密码，支持自定义长度与字符类型。</div>
+    <div class="project-tags">
+      <span>Python</span><span>CLI</span>
+    </div>
+    <a class="detail-btn" href="projects/password.html" target="_blank" style="text-decoration:none;display:inline-block">查看项目</a>
+  </div>
+
+
+  <div class="project-card" style="border: 2px solid #667eea;">
+    <div class="project-icon">📊</div>
+    <div class="project-name">AI竞品监控日报</div>
+    <div class="project-desc">AI驱动的电商竞品自动监控系统，每日生成智能分析报告并推送飞书群。支持通义千问/OpenAI多模型切换。</div>
+    <div class="project-tags">
+      <span>Node.js</span><span>AI</span><span>通义千问</span><span>飞书</span>
+    </div>
+    <button class="detail-btn" data-project="AI竞品监控日报">查看详情</button>
+  </div>
+
+
+</div>
+
+<!-- Footer -->
+<div class="footer">
+  <a class="back-btn" href="index.html">← 返回首页</a>
+</div>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <div class="modal-icon">🚧</div>
+    <h2 id="modalTitle">项目详情</h2>
+    <p id="modalDesc">项目详情待补充，敬请期待！</p>
+    <button class="modal-close" id="modalClose">知道了</button>
+  </div>
+</div>
+
+<script>
+  const overlay = document.getElementById('modalOverlay');
+  const modalTitle = document.getElementById('modalTitle');
+  const modalDesc = document.getElementById('modalDesc');
+  const closeBtn = document.getElementById('modalClose');
+
+  document.querySelectorAll('.detail-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const name = btn.getAttribute('data-project');
+      modalTitle.textContent = name;
+      if (name === 'AI竞品监控日报') {
+        modalDesc.innerHTML = '针对电商供应链运营中"竞品监控耗时长、易遗漏"的痛点，独立开发的AI自动化监控系统。<br><br><b>核心功能：</b><br>• 自动采集多店铺竞品数据（价格、销量、评价）<br>• 调用通义千问/GPT进行AI智能分析<br>• 生成含图表的可视化HTML日报<br>• 通过飞书机器人自动推送到团队群聊<br><br><b>技术栈：</b>Node.js + Chart.js + DashScope API + 飞书Webhook<br><br><b>项目亮点：</b>支持Demo/OpenAI/通义千问三种AI模式切换，已成功接入飞书群实现团队共享。';
+      } else {
+        modalDesc.textContent = '「' + name + '」的项目详情待补充，敬请期待！';
+      }
+      overlay.classList.add('active');
+    });
+  });
+
+  closeBtn.addEventListener('click', () => overlay.classList.remove('active'));
+  overlay.addEventListener('click', (e) => {
+    if (e.target === overlay) overlay.classList.remove('active');
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') overlay.classList.remove('active');
+  });
+</script>
+
+</body>
+</html>
