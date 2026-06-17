@@ -231,17 +231,19 @@
   .modal-overlay.active { opacity: 1; visibility: visible; }
 
   .modal {
-    background: #1a1a24;
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 16px;
-    padding: 36px 32px 28px;
-    max-width: 360px;
-    width: 100%;
-    text-align: center;
-    transform: scale(0.9) translateY(12px);
-    transition: transform 0.3s ease;
-    box-shadow: 0 16px 48px rgba(0,0,0,0.5);
-  }
+  background: #1a1a24;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 16px;
+  padding: 36px 32px 28px;
+  max-width: 400px;  /* 稍微宽一点 */
+  width: 100%;
+  max-height: 80vh;   /* ⭐ 新增：最大高度为屏幕高度的80% */
+  overflow-y: auto;   /* ⭐ 新增：内容超出时显示滚动条 */
+  text-align: center;
+  transform: scale(0.9) translateY(12px);
+  transition: transform 0.3s ease;
+  box-shadow: 0 16px 48px rgba(0,0,0,0.5);
+}
   .modal-overlay.active .modal { transform: scale(1) translateY(0); }
 
   .modal-icon { font-size: 40px; margin-bottom: 16px; }
@@ -355,15 +357,93 @@
   const modalDesc = document.getElementById('modalDesc');
   const closeBtn = document.getElementById('modalClose');
 
+  // ==========================================
+  // 📦 所有项目数据都写在这里（方便管理）
+  // ==========================================
+  const projectData = {
+    'AI竞品监控日报': {
+      desc: '针对电商供应链运营中"竞品监控耗时长、易遗漏"的痛点，独立开发的AI自动化监控系统。',
+      features: [
+        '自动采集多店铺竞品数据（价格、销量、评价）',
+        '调用通义千问/GPT进行AI智能分析',
+        '生成含图表的可视化HTML日报',
+        '通过飞书机器人自动推送到团队群聊'
+      ],
+      techStack: 'Node.js + Chart.js + DashScope API + 飞书Webhook',
+      highlight: '支持Demo/OpenAI/通义千问三种AI模式切换，已成功接入飞书群实现团队共享。',
+      // ⭐ 新增：GitHub 链接（改成你自己的）
+      github: 'https://github.com/Xia5693/Xia5693.github.io',
+      // ⭐ 新增：注意事项（想加多少条就加多少条）
+      notes: [
+        '⚠️ 数据爬取需企业申请相应平台的 API。',
+        '💡 建议使用 Node.js v16 以上版本运行。',
+        '📌 飞书 Webhook 需要提前在飞书群组中配置。'
+      ]
+    }
+    // 以后如果有新项目，在这里继续添加：
+    // '新项目名': {
+    //   desc: '项目描述...',
+    //   features: ['功能1', '功能2'],
+    //   ...
+    // }
+  };
+
+  // ==========================================
+  // 🖥️ 展示逻辑（这部分你基本不用改）
+  // ==========================================
   document.querySelectorAll('.detail-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       const name = btn.getAttribute('data-project');
       modalTitle.textContent = name;
-      if (name === 'AI竞品监控日报') {
-        modalDesc.innerHTML = '针对电商供应链运营中"竞品监控耗时长、易遗漏"的痛点，独立开发的AI自动化监控系统。<br><br><b>核心功能：</b><br>• 自动采集多店铺竞品数据（价格、销量、评价）<br>• 调用通义千问/GPT进行AI智能分析<br>• 生成含图表的可视化HTML日报<br>• 通过飞书机器人自动推送到团队群聊<br><br><b>技术栈：</b>Node.js + Chart.js + DashScope API + 飞书Webhook<br><br><b>项目亮点：</b>支持Demo/OpenAI/通义千问三种AI模式切换，已成功接入飞书群实现团队共享。';
+
+      const project = projectData[name];
+
+      if (project) {
+        // 生成功能列表
+        const featuresHtml = project.features.map(f => `<li>${f}</li>`).join('');
+        // 生成注意事项列表
+        const notesHtml = project.notes.map(n => `<li>${n}</li>`).join('');
+
+        modalDesc.innerHTML = `
+          <p style="text-align:left;">${project.desc}</p>
+          <br>
+
+          <b style="text-align:left;display:block;">📋 核心功能：</b>
+          <ul style="text-align:left;padding-left:20px;color:#c8c8d0;">
+            ${featuresHtml}
+          </ul>
+          <br>
+
+          <b style="text-align:left;display:block;">🛠 技术栈：</b>
+          <p style="text-align:left;color:#c8c8d0;">${project.techStack}</p>
+          <br>
+
+          <b style="text-align:left;display:block;">✨ 项目亮点：</b>
+          <p style="text-align:left;color:#c8c8d0;">${project.highlight}</p>
+          <br>
+
+          <hr style="border-color:rgba(255,255,255,0.1);margin:12px 0;">
+
+          <b style="text-align:left;display:block;">🔗 源码地址：</b>
+          <p style="text-align:left;">
+            <a href="${project.github}" target="_blank" 
+               style="color:#818cf8;text-decoration:underline;word-break:break-all;">
+              ${project.github}
+            </a>
+          </p>
+          <br>
+
+          <b style="text-align:left;display:block;color:#fbbf24;">📌 注意事项：</b>
+          <ul style="text-align:left;padding-left:20px;color:#fcd34d;font-size:13px;">
+            ${notesHtml}
+          </ul>
+        `;
       } else {
-        modalDesc.textContent = '「' + name + '」的项目详情待补充，敬请期待！';
+        modalDesc.innerHTML = `
+          <p>「${name}」的项目详情待补充，敬请期待！</p>
+        `;
       }
+
       overlay.classList.add('active');
     });
   });
@@ -376,6 +456,5 @@
     if (e.key === 'Escape') overlay.classList.remove('active');
   });
 </script>
-
 </body>
 </html>
